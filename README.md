@@ -1,80 +1,123 @@
-# TravelCast — Weather & AI Insights for Tourists
+# 🌤️ TravelCast — Weather & AI Insights for Tourists
 
-A clean, responsive React app that helps tourists check live weather, hourly/7-day
-forecasts, and get AI-generated travel tips for any city in the world — plus
-weather-aware advice on whether to visit indoor or outdoor attractions today.
+TravelCast is a premium, responsive React web application that provides real-time weather forecasts, interactive 24-hour and 7-day outlooks, and dynamic AI-powered travel briefings. Built with modern UI aesthetics and rich features, it helps travelers plan smart and stay weather-wise.
 
-## Features
+---
 
-- 🔍 **City search with autocomplete** — powered by Open-Meteo's free Geocoding API
-- 🌤️ **Live current conditions** — temperature, feels-like, humidity, wind, UV index
-- ⏱️ **24-hour forecast** and **7-day forecast** scrollers
-- 🧠 **AI Travel Briefing** — Gemini (Google AI Studio free tier) generates a short,
-  practical "what to wear / what to do today" summary based on real-time weather
-- 🏛️ **Attraction recommendations** — sample indoor/outdoor attractions per city with
-  weather-based suitability advice (e.g. "skip the outdoor tour today, it's raining")
-- 🌡️ Celsius / Fahrenheit toggle
-- 📱 Fully responsive, dark-themed UI
+## 🌟 Key Features
 
-## APIs used (both free, no backend required)
+- **🔍 Smart Location Search** — Powered by the Open-Meteo Geocoding API, supporting autocomplete search and quick-pick chips for popular cities.
+- **🌤️ Live Weather Metrics** — Shows current temperature, "feels-like" temperature, humidity, wind speed, and UV index.
+- **⏱️ Forecast Scrollers** — Visual 24-hour hourly outlooks and 7-day forecasts.
+- **🧠 Gemini AI Travel Briefing** — Generates personalized "what to wear / what to do" advice in real-time based on current weather data.
+- **🏛️ Dynamic Attraction Advisor** — Recommends popular local attractions (landmarks, museums, parks, beaches, tours) with weather-aware suitability advice.
+- **🖼️ Real Attraction Imagery** — Dynamically fetches real photos of attractions on-the-fly using the Wikimedia Commons API.
+- **⚡ Smart Caching & Rate-Limit Protection**:
+  - **In-Memory Cache**: Caches AI insights and attraction details per location/city to save API quota.
+  - **Rate-Limit Countdown**: Detects Gemini free-tier rate limits, shows a live visual countdown timer, and automatically retries when the limit expires.
+  - **Graceful Fallback**: Automatically falls back to high-quality curated static data if the API is unavailable, keeping the UI fully functional.
+- **🌡️ Unit Toggle** — Switch effortlessly between Celsius and Fahrenheit.
+- **📱 Premium Responsive Design** — Sleek dark-mode aesthetic with vibrant backdrop glow orbs, responsive layouts, hover animations, and shimmer skeleton loading states.
 
-| Purpose            | API                                  | Auth needed |
-|--------------------|---------------------------------------|-------------|
-| Geocoding / search | Open-Meteo Geocoding API              | No          |
-| Weather forecast   | Open-Meteo Forecast API               | No          |
-| AI insights        | Google AI Studio — Gemini API (free)  | Yes (free key) |
+---
 
-## Getting started
+## 🛠️ Technology Stack
 
+- **Frontend Core**: React 18 & Vite
+- **HTTP Client**: Axios (for robust, structured API requests)
+- **Styling**: Modern Vanilla CSS (custom variables, glassmorphism, glowing backdrop orbs, skeleton shimmers)
+- **APIs**:
+  - **Open-Meteo Weather & Geocoding** (Free, no API key required)
+  - **Gemini API (Google AI Studio)** (Free tier key required for AI features)
+  - **Wikimedia Commons API** (Free, no key required, for attraction photos)
+
+---
+
+## 🚀 Getting Started & Setup
+
+### 1. Prerequisites
+Ensure you have [Node.js](https://nodejs.org/) installed (v16+ recommended).
+
+### 2. Clone the Repository
+```bash
+git clone https://github.com/starX-1/forecast-ai.git
+cd forecast-ai/tourist-weather
+```
+*(Note: If you are already inside the project directory, proceed to the next step.)*
+
+### 3. Install Dependencies
+Install all package dependencies using npm:
 ```bash
 npm install
+```
+
+### 4. Configure Environment Variables
+Copy the template configuration to create a `.env` file:
+```bash
 cp .env.example .env
 ```
-
-Then add your free Gemini API key to `.env`:
-
-```
-VITE_GEMINI_API_KEY=your_key_here
+Open the newly created `.env` file and insert your Gemini API Key:
+```env
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-Get a free key at https://aistudio.google.com/app/apikey (no billing required for the
-free tier). The app works fully without a key — only the AI Insight card will show a
-setup message instead.
+> [!TIP]
+> **How to get a free Gemini API Key:**
+> 1. Visit [Google AI Studio](https://aistudio.google.com/app/apikey).
+> 2. Create a free API key (no billing details required).
+> 3. Paste it into your `.env` file.
+> 
+> *Note: If no API key is provided, the app remains fully functional and will gracefully display static local attraction recommendations and prompt instructions for the API key setup.*
 
-Run the dev server:
+---
 
+## 💻 Running the Application
+
+### Start Development Server
+To launch the app locally with hot reloading:
 ```bash
 npm run dev
 ```
+Open your browser and navigate to `http://localhost:5173` (or the URL shown in your terminal).
 
-## Project structure
-
-```
-src/
-  components/
-    SearchBar.jsx        – city search + autocomplete + quick-pick chips
-    CurrentWeather.jsx   – current conditions hero card
-    HourlyForecast.jsx   – 24h horizontal scroller
-    DailyForecast.jsx    – 7-day horizontal scroller
-    AIInsight.jsx        – Gemini-powered travel briefing card
-    Attractions.jsx      – sample attractions + weather suitability advice
-  services/
-    weatherApi.js        – Open-Meteo geocoding + forecast calls
-    geminiApi.js          – Gemini prompt construction + call, attraction heuristic
-  data/
-    attractions.js       – sample POI dataset per city
-  utils/
-    weatherCodes.js       – WMO weather code → label/icon mapping
-  App.jsx
-  index.css
+### Build for Production
+To generate a highly-optimized production build in the `dist` folder:
+```bash
+npm run build
 ```
 
-## Design notes
+---
 
-- Dark, map-inspired color palette suited for a travel product
-- Weather codes mapped from Open-Meteo's WMO standard to readable labels + emoji icons
-  (avoids extra icon dependencies/assets)
-- AI prompt is built from real numeric weather data (temps, UV, rain chance, 3-day
-  outlook) so the response is grounded, not generic
-- Attraction advice combines a Gemini-ready hook (`getAttractionAdvice`) with a
-  rule-based fallback so the UI is never empty even without an API key
+## 📂 Project Structure
+
+```
+tourist-weather/
+├── src/
+│   ├── components/
+│   │   ├── SearchBar.jsx        – City search with autocomplete & quick chips
+│   │   ├── CurrentWeather.jsx   – Current conditions hero card
+│   │   ├── HourlyForecast.jsx   – 24h scrollable forecast
+│   │   ├── DailyForecast.jsx    – 7-day scrollable forecast
+│   │   ├── AIInsight.jsx        – Gemini-powered travel briefing and countdown timer
+│   │   └── Attractions.jsx      – Dynamic attractions list with Wikimedia images & fallbacks
+│   ├── services/
+│   │   ├── weatherApi.js        – Open-Meteo forecast and geocoding services
+│   │   ├── geminiApi.js         – Gemini prompting, model config, and response parser
+│   │   └── wikiImageApi.js      – Wikimedia Commons search API for attraction photos
+│   ├── data/
+│   │   └── attractions.js       – Curated static attractions database for fallback
+│   ├── utils/
+│   │   └── weatherCodes.js      – WMO weather code mapping to labels and emojis
+│   ├── App.jsx                  – Main app wrapper and layout assembler
+│   ├── index.css                – Core styling, design tokens, and shimmer animations
+│   └── main.jsx                 – React app entry point
+├── public/                      – Curated category placeholder images
+├── vite.config.js               – Vite builder settings
+├── .env.example                 – Configuration template
+└── package.json                 – Scripts and project dependencies
+```
+
+---
+
+## 🌍 Deployment & Publishing
+The production bundle is fully static and can be deployed directly to modern hosting providers such as Vercel, Netlify, or GitHub Pages.
