@@ -41,7 +41,7 @@ Ensure you have [Node.js](https://nodejs.org/) installed (v16+ recommended).
 ### 2. Clone the Repository
 ```bash
 git clone https://github.com/starX-1/forecast-ai.git
-cd forecast-ai/tourist-weather
+cd forecast-ai
 ```
 *(Note: If you are already inside the project directory, proceed to the next step.)*
 
@@ -52,11 +52,8 @@ npm install
 ```
 
 ### 4. Configure Environment Variables
-Copy the template configuration to create a `.env` file:
-```bash
-cp .env.example .env
-```
-Open the newly created `.env` file and insert your Gemini API Key:
+Create a .env file in the forecast-ai folder and add your Gemini API key to it. 
+
 ```env
 VITE_GEMINI_API_KEY=your_gemini_api_key_here
 ```
@@ -91,7 +88,7 @@ npm run build
 ## 📂 Project Structure
 
 ```
-tourist-weather/
+forecast-ai/
 ├── src/
 │   ├── components/
 │   │   ├── SearchBar.jsx        – City search with autocomplete & quick chips
@@ -113,7 +110,7 @@ tourist-weather/
 │   └── main.jsx                 – React app entry point
 ├── public/                      – Curated category placeholder images
 ├── vite.config.js               – Vite builder settings
-├── .env.example                 – Configuration template
+├── .env                         – Configuration 
 └── package.json                 – Scripts and project dependencies
 ```
 
